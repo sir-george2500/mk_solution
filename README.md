@@ -22,8 +22,6 @@ git clone git@github.com:sir-george2500/mk_solution.git
 ```python
 pip install -r requirements.txt
 ```
-```
-```
 
 ### Run Database Migrations
 Navigate to the project directory and run the database migrations using Alembic:
