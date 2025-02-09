@@ -17,6 +17,14 @@ To get started, clone the repository to your local machine:
 git clone git@github.com:sir-george2500/mk_solution.git
 ```
 
+### Install the dependencies 
+
+```python
+pip install -r requirements.txt
+```
+```
+```
+
 ### Run Database Migrations
 Navigate to the project directory and run the database migrations using Alembic:
 
