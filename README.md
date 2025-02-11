@@ -30,17 +30,15 @@ Navigate to the project directory and run the database migrations using Alembic:
 alembic upgrade head
 ```
 
+### Run the testcases 
+```python 
+pytest
+```
 ### Start the Server
 Start the project using Uvicorn, the ASGI server:
 
 
 ```python
 uvicorn app.main:app --reload
-```
-
-### Run the testcases 
-```python 
-pytest
-```
 ```
 
