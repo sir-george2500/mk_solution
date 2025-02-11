@@ -15,9 +15,9 @@ class CreateUserSchema(BaseModel):
     verify_user_token: Optional[str] = Field(None, description="Token for user verification")
     verify_user_token_expiry: Optional[datetime] = Field(None, description="Expiry time for the user verification token")
     verify_user_token_used: Optional[bool] = Field(False, description="Whether the user verification token has been used")
-    profile_url: Optional[HttpUrl] = Field(None, description="The profile picture URL of the user")
+    profile_url: Optional[str] = Field(None, description="The profile picture URL of the user")
     address: Optional[str] = Field(None, description="The address of the user")
-    business_url: Optional[HttpUrl] = Field(None, description="The business URL of the user")
+    business_url: Optional[str] = Field(None, description="The business URL of the user")
     created_at: Optional[datetime] = Field(None, description="The time when the user was created")
     updated_at: Optional[datetime] = Field(None, description="The last time when the user was updated")
 

@@ -5,11 +5,8 @@ from crud_engine.user_crud import UserCRUD
 from models.schemas.user_schemas import CreateUserSchema
 from validator.user_validator import UserValidator
 from passlib.context import CryptContext
-from datetime import datetime, timedelta
 from dotenv import load_dotenv
 import os
-from jose import jwt
-import secrets
 
 # Load environment variables from .env file
 load_dotenv()
