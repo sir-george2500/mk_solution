@@ -28,6 +28,7 @@ def test_create_user(db_session):
     new_user = CreateUser(
         name="John Doe",
         email="johndoe@example.com",
+        password="securepassword123",  # New password field added
         phone="1234567890",
         role="Admin",
         profile_url="http://example.com/profile.jpg",
@@ -42,6 +43,7 @@ def test_create_user(db_session):
     assert user is not None
     assert user.name == "John Doe"
     assert user.email == "johndoe@example.com"
+    assert user.password == "securepassword123"  # Assert the password is saved correctly
     assert user.phone == "1234567890"
     assert user.role == "Admin"
     assert user.profile_url == "http://example.com/profile.jpg"
@@ -54,6 +56,7 @@ def test_create_user_duplicate_email(db_session):
     user1 = CreateUser(
         name="Jane Doe",
         email="janedoe@example.com",
+        password="password123",  # New password field added
         phone="0987654321",
         role="User"
     )
@@ -64,6 +67,7 @@ def test_create_user_duplicate_email(db_session):
     user2 = CreateUser(
         name="John Smith",
         email="janedoe@example.com",  # Same email
+        password="anotherpassword123",  # New password
         phone="1122334455",
         role="User"
     )
@@ -75,10 +79,11 @@ def test_create_user_duplicate_email(db_session):
 
 def test_create_user_with_optional_fields(db_session):
     """Test creating a user with optional fields."""
-    # Create a user with only required fields (name, email)
+    # Create a user with only required fields (name, email, password)
     user = CreateUser(
         name="Mark Smith",
-        email="marksmith@example.com"
+        email="marksmith@example.com",
+        password="password123"  # New password field added
     )
     db_session.add(user)
     db_session.commit()
@@ -88,6 +93,7 @@ def test_create_user_with_optional_fields(db_session):
     assert user is not None
     assert user.name == "Mark Smith"
     assert user.email == "marksmith@example.com"
+    assert user.password == "password123"  # Assert password is saved correctly
     assert user.phone is None
     assert user.role is None
     assert user.profile_url is None
@@ -99,7 +105,8 @@ def test_create_user_timestamp_fields(db_session):
     # Create a user
     user = CreateUser(
         name="Alice Green",
-        email="alicegreen@example.com"
+        email="alicegreen@example.com",
+        password="securepassword123"  # New password field added
     )
     db_session.add(user)
     db_session.commit()
@@ -107,12 +114,14 @@ def test_create_user_timestamp_fields(db_session):
     # Check the created_at and updated_at fields
     assert user.created_at is not None
     assert user.updated_at is not None
+
 def test_update_user(db_session):
     """Test updating a user's information."""
     # Create a user
     user = CreateUser(
         name="Samuel Brown",
-        email="samuelbrown@example.com"
+        email="samuelbrown@example.com",
+        password="password123"  # New password field added
     )
     db_session.add(user)
     db_session.commit()
@@ -125,5 +134,5 @@ def test_update_user(db_session):
     # Fetch the updated user and check the role
     updated_user = db_session.query(CreateUser).filter_by(email="samuelbrown@example.com").first()
     assert updated_user.role == "Manager"
-
+    assert updated_user.password == "password123"  # Ensure password remains unchanged
 

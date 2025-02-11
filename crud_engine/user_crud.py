@@ -1,6 +1,5 @@
 from sqlalchemy.orm import Session
 from models.models import CreateUser  # Assuming CreateUser is the model from models.py
-from fastapi import HTTPException
 from models.schemas.user_schemas import CreateUserSchema
 
 class UserCRUD:
