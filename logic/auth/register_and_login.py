@@ -19,9 +19,9 @@ crud = UserCRUD()
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 user_validator = UserValidator(crud=crud, pwd_context=pwd_context)
-
+token_secret = os.getenv("TOKEN_SECRET")
 # Access environment variables
-SECRET_KEY = os.getenv("SECRET_KEY", "your_default_secret_key")
+SECRET_KEY = os.getenv("SECRET_KEY", token_secret)
 ALGORITHM = os.getenv("ALGORITHM", "HS256")
 ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", 30))
 

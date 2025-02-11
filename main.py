@@ -1,8 +1,10 @@
 from fastapi import FastAPI
+from starlette.responses import JSONResponse
 
-app = FastAPI(title="MK Solution", version="1.0.0")
+from rate_limiter.rate_limiter import RateLimiterMiddleware
 
-@app.get("/")
-def read_root():
-    return {"message": "Welcome to My FastAPI App"}
+# Initialize FastAPI app
+app = FastAPI(title="MK Solutions", docs_url="/")
 
+# Add the RateLimiterMiddleware
+app.add_middleware(RateLimiterMiddleware)
