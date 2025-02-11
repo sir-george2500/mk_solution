@@ -79,6 +79,6 @@ class TestCreateUserSchema:
         assert isinstance(user.email, str)
         assert isinstance(user.phone, str)
         assert isinstance(user.role, str)
-        assert isinstance(user.profile_url, HttpUrl) or user.profile_url is None
-        assert isinstance(user.address, str) or user.address is None
-        assert isinstance(user.business_url, HttpUrl) or user.business_url is None
+        assert isinstance(user.profile_url, str)
+        assert isinstance(user.address, str) 
+        assert isinstance(user.business_url, str)
