@@ -37,6 +37,10 @@ Start the project using Uvicorn, the ASGI server:
 ```python
 uvicorn app.main:app --reload
 ```
+
+### Run the testcases 
+```python 
+pytest
 ```
 ```
 
