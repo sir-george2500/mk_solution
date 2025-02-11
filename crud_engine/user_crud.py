@@ -22,3 +22,15 @@ class UserCRUD:
         db.commit()
         db.refresh(user)
         return user
+
+    def get_user_by_email(self, db: Session, email: str) -> CreateUser:
+        """Gets a user by their email from the database.
+
+        Args:
+            db: The database session.
+            email: The email of the user to retrieve.
+
+        Returns:
+            The user object if found, None otherwise.
+        """
+        return db.query(CreateUser).filter(CreateUser.email == email).first()
