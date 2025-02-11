@@ -2,10 +2,6 @@ import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import IntegrityError
-import sys
-import os
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
 from models.models import CreateUser, Base
 
 
@@ -129,4 +125,5 @@ def test_update_user(db_session):
     # Fetch the updated user and check the role
     updated_user = db_session.query(CreateUser).filter_by(email="samuelbrown@example.com").first()
     assert updated_user.role == "Manager"
+
 
