@@ -51,13 +51,27 @@ async def register_new_user(user_data: CreateUserSchema, session: Session = Depe
         # If an HTTPException occurs during validation, password hashing, or user creation, re-raise it
         raise e
 
-def create_access_token(data: dict):
+def create_access_token(data: dict, role: str):
+    """
+    Create an access token with user data and role.
+
+    Args:
+        data (dict): User-specific data to encode in the token.
+        role (str): User role to include in the token.
+
+    Returns:
+        str: Encoded JWT token.
+    """
     to_encode = data.copy()
     expires_delta = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     expire = datetime.now(timezone.utc) + expires_delta
-    to_encode.update({"exp": expire})
-    encoded_jwt = jwt.encode(to_encode,str(SECRET_KEY) ,algorithm=ALGORITHM)
+
+    # Add expiration and role to the payload
+    to_encode.update({"exp": expire, "role": role})
+    
+    encoded_jwt = jwt.encode(to_encode, str(SECRET_KEY), algorithm=ALGORITHM)
     return encoded_jwt
+
 
 
 async def login_user(user_data: LoginUserSchemas, session: Session = Depends(db_connection)):
@@ -75,11 +89,12 @@ async def login_user(user_data: LoginUserSchemas, session: Session = Depends(db_
         # Validate user credentials
         user = user_validator.validate_user_credentials(session, email=user_data.email, password=user_data.password)
 
-        # Create an access token
-        access_token = create_access_token(data={"sub": user.email})
+        # Create an access token with the user's email and role
+        access_token = create_access_token(data={"sub": user.email}, role=str(user.role))
+        
         # Return login details including access token, user ID, email, user role, and email verification status
         return {
-            "token_type":"bearer",
+            "token_type": "bearer",
             "access_token": access_token,
             "user_id": user.id,
             "email": user.email,

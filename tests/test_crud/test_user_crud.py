@@ -111,3 +111,69 @@ def test_get_user_by_id_not_found(db_session, user_crud):
 
     # Ensure that no user is found
     assert fetched_user is None
+
+def test_update_user(db_session, user_crud):
+    """Test the update_user method in UserCRUD."""
+
+    # Step 1: Create a user first
+    user_create_data = CreateUserSchema(
+        name="John Doe",
+        email="johndoe@example.com",
+        phone="+1234567890",
+        role="User",
+        password="securepassword123"
+    )
+    created_user = user_crud.create_user(db_session, user_create_data)
+
+    # Step 2: Update specific fields of the user
+    updated_user = user_crud.update_user(
+        db=db_session,
+        user_id=created_user.id,
+        name="John Updated",
+        phone="+9876543210"
+    )
+
+    # Step 3: Fetch the updated user
+    fetched_user = user_crud.get_user_by_id(db_session, created_user.id)
+
+    # Assertions to verify the updates
+    assert fetched_user is not None
+    assert fetched_user.id == created_user.id
+    assert fetched_user.name == "John Updated"
+    assert fetched_user.phone == "+9876543210"
+    assert fetched_user.email == "johndoe@example.com"  # Ensure other fields remain unchanged
+    assert fetched_user.role == "User"
+
+def test_update_user_invalid_field(db_session, user_crud):
+    """Test updating a user with an invalid field in UserCRUD."""
+    
+    # Step 1: Create a user
+    user_create_data = CreateUserSchema(
+        name="Jane Doe",
+        email="janedoe@example.com",
+        phone="+1122334455",
+        role="Admin",
+        password="securepassword321"
+    )
+    created_user = user_crud.create_user(db_session, user_create_data)
+
+    # Step 2: Attempt to update with an invalid field
+    with pytest.raises(ValueError, match="Invalid field: invalid_field"):
+        user_crud.update_user(
+            db=db_session,
+            user_id=created_user.id,
+            invalid_field="some_value"
+        )
+
+def test_update_user_not_found(db_session, user_crud):
+    """Test updating a user that does not exist in UserCRUD."""
+    
+    # Attempt to update a non-existing user
+    non_existing_user_id = 9999  # Assume this ID does not exist
+    with pytest.raises(ValueError, match="User not found."):
+        user_crud.update_user(
+            db=db_session,
+            user_id=non_existing_user_id,
+            name="Non Existent"
+        )
+

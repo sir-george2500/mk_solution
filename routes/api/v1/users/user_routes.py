@@ -2,13 +2,13 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from config.db import db_connection
 from logic.users.users_logic import get_user_data_by_id
-from middleware.verify_token import verify_token
+from middleware.verify_token import verify_user_token
 
 # Creating an APIRouter instance
 user_data_router = APIRouter()
 
 # Endpoint to get user profile
-@user_data_router.get("/user/data/{user_id}", dependencies=[Depends(verify_token)])
+@user_data_router.get("/user/data/{user_id}", dependencies=[Depends(verify_user_token)])
 async def get_user_profile(user_id: int, session: Session = Depends(db_connection)):
     """
     Get user profile data based on the provided user ID and token.
@@ -26,4 +26,6 @@ async def get_user_profile(user_id: int, session: Session = Depends(db_connectio
         return response
     except HTTPException as e:
         raise e
+
+# Endpoint to create agent 
 

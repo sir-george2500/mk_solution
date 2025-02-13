@@ -46,3 +46,34 @@ class UserCRUD:
             The user object if found, None otherwise.
         """
         return db.query(CreateUser).filter(CreateUser.id == user_id).first()
+
+    def update_user(self, db: Session, user_id: int, **kwargs) -> CreateUser:
+        """
+        Updates the user data based on the provided fields.
+
+        Args:
+            db: The database session.
+            user_id: The ID of the user to update.
+            **kwargs: Arbitrary keyword arguments representing the fields to update and their new values.
+
+        Returns:
+            The updated user object.
+
+        Raises:
+            ValueError: If no valid fields are provided for the update.
+        """
+        user = self.get_user_by_id(db, user_id)
+        if not user:
+            raise ValueError("User not found.")
+
+        # Update the fields in the user object
+        for key, value in kwargs.items():
+            if hasattr(user, key):  # Ensure the user model has the attribute
+                setattr(user, key, value)
+            else:
+                raise ValueError(f"Invalid field: {key}")
+
+        db.commit()
+        db.refresh(user)
+        return user
+
