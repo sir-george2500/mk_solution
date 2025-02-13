@@ -19,6 +19,7 @@ class CreateUser(Base):
     verify_user_token = Column(String, nullable=True)
     verify_user_token_expiry = Column(DateTime(timezone=True), nullable=True)
     verify_user_token_used = Column(Boolean, default=False)
+    is_email_verified = Column(Boolean, default=False)
     profile_url = Column(Text, nullable=True)
     address = Column(String, nullable=True)
     business_url = Column(Text, nullable=True)

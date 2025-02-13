@@ -3,7 +3,6 @@ from fastapi import HTTPException, Depends
 from sqlalchemy.orm import Session
 from config.db import db_connection
 from crud_engine.user_crud import UserCRUD
-from models.schemas.login_user_schema import LoginUserSchemas
 from models.schemas.user_schemas import CreateUserSchema
 from validator.user_validator import UserValidator
 from passlib.context import CryptContext
@@ -60,7 +59,7 @@ def create_access_token(data: dict):
     return encoded_jwt
 
 
-async def login_user(user_data: LoginUserSchemas, session: Session = Depends(db_connection)):
+async def login_user(user_data: UserLogin, session: Session = Depends(db_connection)):
     """
     Login a user, validate credentials, and create an access token.
 
@@ -83,7 +82,7 @@ async def login_user(user_data: LoginUserSchemas, session: Session = Depends(db_
             "access_token": access_token,
             "user_id": user.id,
             "email": user.email,
-            "user_role": user.role,
+            "user_role": user.user_role,
             "is_email_verified": user.is_email_verified
         }
     except HTTPException as e:

@@ -76,3 +76,38 @@ def test_get_user_by_email_not_found(db_session, user_crud):
     # Ensure that no user is found
     assert fetched_user is None
 
+
+
+def test_get_user_by_id(db_session, user_crud):
+    """Test the get_user_by_id method in UserCRUD."""
+
+    # Correct the dictionary syntax
+    user_create_data = CreateUserSchema(
+        name="Alice Green",
+        email="someuser9000@example.com",
+        phone="+1234567890",
+        role="Manager",
+        password="password123"
+    )
+
+    # Create a user first
+    created_user = user_crud.create_user(db_session, user_create_data)
+
+    # Fetch the user by ID
+    fetched_user = user_crud.get_user_by_id(db_session, created_user.id)
+
+    # Ensure the fetched user matches the created user
+    assert fetched_user is not None
+    assert fetched_user.id == created_user.id
+    assert fetched_user.name == user_create_data.name
+    assert fetched_user.email == user_create_data.email
+    assert fetched_user.phone == user_create_data.phone
+    assert fetched_user.role == user_create_data.role
+
+def test_get_user_by_id_not_found(db_session, user_crud):
+    """Test getting a user by ID when the user does not exist."""
+    non_existing_user_id = 9999  # Assume this ID does not exist
+    fetched_user = user_crud.get_user_by_id(db_session, non_existing_user_id)
+
+    # Ensure that no user is found
+    assert fetched_user is None

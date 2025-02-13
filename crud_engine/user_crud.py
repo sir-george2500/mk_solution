@@ -34,3 +34,15 @@ class UserCRUD:
             The user object if found, None otherwise.
         """
         return db.query(CreateUser).filter(CreateUser.email == email).first()
+
+    def get_user_by_id(self, db: Session, user_id: int) -> CreateUser:
+        """Gets a user by their ID from the database.
+
+        Args:
+            db: The database session.
+            user_id: The ID of the user to retrieve.
+
+        Returns:
+            The user object if found, None otherwise.
+        """
+        return db.query(CreateUser).filter(CreateUser.id == user_id).first()

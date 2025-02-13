@@ -30,3 +30,24 @@ class UserValidator:
         existing_user = self.crud.get_user_by_email(session, email=email)
         if existing_user:
             raise HTTPException(status_code=400, detail="User with this email already exists")
+
+    def validate_user_credentials(self, session: Session, email: str, password: str):
+        """
+        Validates user credentials (checks if the user exists and the password is correct).
+
+        Args:
+            session (Session): The database session.
+            email (str): The user's email.
+            password (str): The user's password.
+
+        Raises:
+            HTTPException: If the user does not exist or the password is incorrect, raises a 401 HTTPException.
+        """
+        # Check if user exists
+        user = self.crud.get_user_by_email(session, email=email)
+        if not user:
+            raise HTTPException(status_code=401, detail="Invalid credentials")
+        # Check if the password is correct
+        if not self.pwd_context.verify(password, str(user.password)):
+            raise HTTPException(status_code=401, detail="Invalid password")
+        return user

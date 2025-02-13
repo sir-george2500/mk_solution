@@ -16,7 +16,7 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
-app.include_router(auth_router, prefix="/api/v1", tags=["User Auth"])
+app.include_router(auth_router, prefix="/api/v1", tags=["Auth"])
 
 # Add the RateLimiterMiddleware
 # Add rate limiter middleware
