@@ -53,7 +53,7 @@ async def login(user_data: LoginUserSchemas, session: Session = Depends(get_db))
         raise e
 
 @auth_router.post("/auth/send-verify-email-code")
-async def verify_email(email:str, session:Session = Depends(get_db)):
+async def send_verify_email_code(email:str, session:Session = Depends(get_db)):
     """
     Send a verification code to the user's email.
 

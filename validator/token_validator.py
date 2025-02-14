@@ -72,4 +72,3 @@ async def validate_admin_token(token: str):
             detail="Invalid or expired token",
             headers={"WWW-Authenticate": "Bearer"},
         )
-
