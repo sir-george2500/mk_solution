@@ -118,7 +118,7 @@ async def send_code_to_verify_email(email:str, session:Session = Depends(db_conn
     code = generate_verification_code_alphanumeric()
     user = crud.get_user_by_email(session,email)
 
-    expiry_time = datetime.now(timezone.utc) + timedelta(minutes=5)
+    expiry_time = datetime.now(timezone.utc) + timedelta(minutes=10)
     
 
     if not user:

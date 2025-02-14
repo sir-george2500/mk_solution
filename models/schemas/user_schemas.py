@@ -38,7 +38,6 @@ class CreateUserSchema(BaseModel):
                 "verify_user_token_used": False,
                 "profile_url": "https://example.com/profile/alice-green",
                 "address": "123 Elm Street, Springfield",
-                "business_url": "https://alicegreenbusiness.com",
                 "created_at": "2023-12-01T12:00:00",
                 "updated_at": "2023-12-01T12:00:00"
             }

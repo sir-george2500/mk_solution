@@ -130,7 +130,9 @@ def send_code_to_verify_email(email: str, session: Session = Depends(db_connecti
 
 
     user = crud.get_user_by_email(session, email)
-
+    
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found.")
      # Validate if the user exists using UserValidator
     _ = user_validator.validate_user_exists(session, user.id)
     # Extract the user ID as an integer (not as a SQLAlchemy column)
