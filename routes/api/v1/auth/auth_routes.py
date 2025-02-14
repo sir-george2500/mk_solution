@@ -2,10 +2,9 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from config.db import db_connection
-from logic.auth.register_and_login import login_user, register_new_user
+from logic.auth.auth_logic import login_user, register_new_user, send_code_to_verify_email
 from models.schemas.login_user_schema import LoginUserSchemas
 from models.schemas.user_schemas import CreateUserSchema
-
 auth_router = APIRouter()
 
 # Dependency to get DB session
@@ -53,5 +52,16 @@ async def login(user_data: LoginUserSchemas, session: Session = Depends(get_db))
     except HTTPException as e:
         raise e
 
+@auth_router.post("/auth/send-verify-email-code")
+async def verify_email(email:str, session:Session = Depends(get_db)):
+    """
+    Send a verification code to the user's email.
 
-
+    Args:
+        email (str): The user's email address.
+    """
+    try:
+        await send_code_to_verify_email(email, session)
+        return {"message": "Verification code sent successfully"}
+    except HTTPException as e:
+        raise e

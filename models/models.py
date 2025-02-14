@@ -1,28 +1,28 @@
-from sqlalchemy import Boolean, Column, String, Integer, DateTime, Text
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.sql import func
+from sqlalchemy import Boolean, String, Integer, DateTime, Text, func
+from sqlalchemy.orm import DeclarativeBase, mapped_column, Mapped
 
-Base = declarative_base()
+class Base(DeclarativeBase):
+    pass
 
 class CreateUser(Base):
     __tablename__ = "users"
 
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, nullable=False)
-    email = Column(String, unique=True, nullable=False)
-    phone = Column(String, nullable=True)
-    role = Column(String, nullable=True)
-    password = Column(String, nullable=False)
-    forget_password_token = Column(String, nullable=True)
-    forget_password_token_expiry = Column(DateTime(timezone=True), nullable=True)
-    forget_password_token_used = Column(Boolean, default=False)
-    verify_user_token = Column(String, nullable=True)
-    verify_user_token_expiry = Column(DateTime(timezone=True), nullable=True)
-    verify_user_token_used = Column(Boolean, default=False)
-    is_email_verified = Column(Boolean, default=False)
-    profile_url = Column(Text, nullable=True)
-    address = Column(String, nullable=True)
-    business_url = Column(Text, nullable=True)
-    created_at = Column(DateTime, default=func.now(), nullable=False)
-    updated_at = Column(DateTime, default=func.now(), onupdate=func.now(), nullable=False)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    name: Mapped[str] = mapped_column(String, nullable=False)
+    email: Mapped[str] = mapped_column(String, unique=True, nullable=False)
+    phone: Mapped[str | None] = mapped_column(String, nullable=True)
+    role: Mapped[str | None] = mapped_column(String, nullable=True)
+    password: Mapped[str] = mapped_column(String, nullable=False)
+    forget_password_token: Mapped[str | None] = mapped_column(String, nullable=True)
+    forget_password_token_expiry: Mapped[DateTime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    forget_password_token_used: Mapped[bool] = mapped_column(Boolean, default=False)
+    verify_user_token: Mapped[str | None] = mapped_column(String, nullable=True)
+    verify_user_token_expiry: Mapped[DateTime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    verify_user_token_used: Mapped[bool] = mapped_column(Boolean, default=False)
+    is_email_verified: Mapped[bool] = mapped_column(Boolean, default=False)
+    profile_url: Mapped[str | None] = mapped_column(Text, nullable=True)
+    address: Mapped[str | None] = mapped_column(String, nullable=True)
+    business_url: Mapped[str | None] = mapped_column(Text, nullable=True)
+    created_at: Mapped[DateTime] = mapped_column(DateTime, default=func.now(), nullable=False)
+    updated_at: Mapped[DateTime] = mapped_column(DateTime, default=func.now(), onupdate=func.now(), nullable=False)
 

@@ -51,3 +51,21 @@ class UserValidator:
         if not self.pwd_context.verify(password, str(user.password)):
             raise HTTPException(status_code=401, detail="Invalid password")
         return user
+
+    def validate_user_exists(self, session: Session, user_id: int):
+        """
+        Validates if a user with the given ID exists in the database.
+
+        Args:
+            session (Session): The database session.
+            user_id (int): The user ID to check.
+
+        Raises:
+            HTTPException: If the user with the given ID does not exist, raises a 404 HTTPException.
+        """
+        # Check if user exists
+        user = self.crud.get_user_by_id(session, user_id=user_id)
+        if not user:
+            raise HTTPException(status_code=404, detail=f"User with ID {user_id} not found")
+        return user
+

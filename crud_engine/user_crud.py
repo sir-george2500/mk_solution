@@ -1,6 +1,8 @@
+from typing import Optional  
 from sqlalchemy.orm import Session
-from models.models import CreateUser  # Assuming CreateUser is the model from models.py
+from models.models import CreateUser  
 from models.schemas.user_schemas import CreateUserSchema
+
 
 class UserCRUD:
     """Handles create, read, update, and delete (CRUD) operations for users."""
@@ -15,7 +17,6 @@ class UserCRUD:
         Returns:
             The newly created user object.
         """
-
         user_data = user_create.model_dump()
         user = CreateUser(**user_data)
         db.add(user)
@@ -23,7 +24,7 @@ class UserCRUD:
         db.refresh(user)
         return user
 
-    def get_user_by_email(self, db: Session, email: str) -> CreateUser:
+    def get_user_by_email(self, db: Session, email: str) -> Optional[CreateUser]:
         """Gets a user by their email from the database.
 
         Args:
@@ -35,7 +36,7 @@ class UserCRUD:
         """
         return db.query(CreateUser).filter(CreateUser.email == email).first()
 
-    def get_user_by_id(self, db: Session, user_id: int) -> CreateUser:
+    def get_user_by_id(self, db: Session, user_id: int) -> Optional[CreateUser]:
         """Gets a user by their ID from the database.
 
         Args:
