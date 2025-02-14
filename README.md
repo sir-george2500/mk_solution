@@ -23,12 +23,23 @@ git clone git@github.com:sir-george2500/mk_solution.git
 pip install -r requirements.txt
 ```
 
+### Create your Virtual Environment
+```
+python3 -m venv venv
+```
+
+#### Make sure to ask your project Lead for the .env
+```bash
+ .env
+```
+
 ### Run Database Migrations
 Navigate to the project directory and run the database migrations using Alembic:
 
 ```python 
 alembic upgrade head
 ```
+
 
 ### Run the testcases 
 ```python 
