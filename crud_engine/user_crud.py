@@ -49,6 +49,26 @@ class UserCRUD:
         """
         return db.query(User).filter(User.id == user_id).first()
 
+    def get_user_by_code(self, db: Session, code: str, code_type: str) -> Optional[User]:
+        """
+        Gets a user by their token type.
+
+        Args:
+            db: The database session.
+            code: The token to search for.
+            code_type: The type of token ('verify_token' or 'forget_password_token').
+
+        Returns:
+            The user object if found, None otherwise.
+
+        Raises:
+            ValueError: If an invalid code_type is provided.
+        """
+        if code_type not in ["verify_user_token", "forget_password_token"]:
+            raise ValueError("Invalid code_type. Must be 'verify_token' or 'forget_password_token'.")
+
+        return db.query(User).filter(getattr(User, code_type) == code).first()
+
     def update_user(self, db: Session, user_id: int, **kwargs) -> User:
         """
         Updates the user data based on the provided fields.

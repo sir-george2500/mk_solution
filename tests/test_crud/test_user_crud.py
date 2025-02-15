@@ -177,3 +177,20 @@ def test_update_user_not_found(db_session, user_crud):
             name="Non Existent"
         )
 
+def test_get_user_by_code_verify_token(db_session, user_crud):
+    """Test getting a user by verify_token."""
+    user_create_data = CreateUserSchema(
+        name="Alice Green",
+        email="alice@example.com",
+        phone="+1234567890",
+        role="User",
+        password="password123",
+        verify_user_token="verify123"
+    )
+    created_user = user_crud.create_user(db_session, user_create_data)
+
+    fetched_user = user_crud.get_user_by_code(db_session, "verify123", "verify_user_token")
+    
+    assert fetched_user is not None
+    assert fetched_user.id == created_user.id
+    assert fetched_user.verify_user_token == "verify123"
