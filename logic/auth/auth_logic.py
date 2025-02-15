@@ -12,7 +12,7 @@ from dotenv import load_dotenv
 import os
 from jose import jwt
 from fastapi import status
-from fastapi_mail import MessageSchema
+from fastapi_mail import MessageSchema, MessageType
 from config.email import fastmail
 from utils.opt import generate_otp, generate_otp_expiry
 
@@ -68,7 +68,7 @@ async def register_new_user(user_data: CreateUserSchema, session: Session = Depe
                 "name": user.name,
                 "code": verification_code
             },
-            subtype="html"
+            subtype=MessageType.html
         )
 
         await fastmail.send_message(
