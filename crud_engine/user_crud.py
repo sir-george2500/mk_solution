@@ -1,4 +1,4 @@
-from typing import Optional  
+from typing import Optional, List  
 from sqlalchemy.orm import Session
 from models.models import User  
 from models.schemas.user_schemas import CreateUserSchema
@@ -78,6 +78,13 @@ class UserCRUD:
         db.commit()
         db.refresh(user)
         return user
+    
+    def get_onboarded_clients(self, db: Session) -> List[User]:
+        """Gets all clients who have uploaded their business certificates."""
+        return db.query(User).filter(
+            User.role == "client",
+            User.is_onboarded == True
+        ).all()
 
 # Create an instance of UserCRUD
 crud = UserCRUD()

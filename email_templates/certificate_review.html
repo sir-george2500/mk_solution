@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Certificate Review Update</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f4f4f4;">
+    <table cellpadding="0" cellspacing="0" border="0" width="100%" style="background-color: #f4f4f4; padding: 40px 20px;">
+        <tr>
+            <td align="center">
+                <table cellpadding="0" cellspacing="0" border="0" width="600" style="background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                    <!-- Header -->
+                    <tr>
+                        <td style="background-color: #000000; padding: 30px; text-align: center; border-radius: 8px 8px 0 0;">
+                            <div style="display: inline-block; background: linear-gradient(135deg, #47FF78, #32d161); border-radius: 50%; width: 60px; height: 60px; line-height: 60px; text-align: center; margin-bottom: 15px;">
+                                <span style="color: #000000; font-size: 24px; font-weight: bold;">MK</span>
+                            </div>
+                            <div style="color: #47FF78; font-size: 20px; font-weight: 500;">MK Solution</div>
+                        </td>
+                    </tr>
+
+                    <!-- Content -->
+                    <tr>
+                        <td style="padding: 40px 30px;">
+                            <h1 style="color: #1a1a1a; font-size: 28px; margin: 0 0 30px 0;">
+                                Hello, <span style="color: #32d161;">{{name}}</span>!
+                            </h1>
+
+                            {% if status == "approved" %}
+                            <!-- Approved State -->
+                            <div style="background-color: rgba(71, 255, 120, 0.1); border-radius: 8px; padding: 30px; margin-bottom: 30px;">
+                                <div style="text-align: center; margin-bottom: 20px;">
+                                    <div style="display: inline-block; background-color: #47FF78; border-radius: 50%; width: 60px; height: 60px; line-height: 60px; text-align: center;">
+                                        <span style="color: #000000; font-size: 24px;">✓</span>
+                                    </div>
+                                </div>
+                                <h2 style="color: #32d161; font-size: 24px; margin: 0 0 20px 0; text-align: center;">
+                                    Certificate Approved!
+                                </h2>
+                                <p style="color: #1a1a1a; font-size: 16px; line-height: 1.6; margin: 0; text-align: center;">
+                                    Your business certificate has been approved! You can now start using our logistics services.
+                                </p>
+                            </div>
+
+                            <div style="text-align: center;">
+                                <a href="#" style="display: inline-block; background-color: #47FF78; color: #000000; padding: 15px 30px; text-decoration: none; border-radius: 5px; font-weight: bold; font-size: 16px;">
+                                    Start Using Services
+                                </a>
+                            </div>
+                            {% else %}
+                            <!-- Rejected State -->
+                            <div style="background-color: #fff5f5; border-radius: 8px; padding: 30px; margin-bottom: 30px; border: 1px solid #ffebeb;">
+                                <div style="text-align: center; margin-bottom: 20px;">
+                                    <div style="display: inline-block; background-color: #ff4747; border-radius: 50%; width: 60px; height: 60px; line-height: 60px; text-align: center;">
+                                        <span style="color: #ffffff; font-size: 24px;">!</span>
+                                    </div>
+                                </div>
+                                <h2 style="color: #cc0000; font-size: 24px; margin: 0 0 20px 0; text-align: center;">
+                                    Certificate Not Approved
+                                </h2>
+                                <p style="color: #1a1a1a; font-size: 16px; line-height: 1.6; margin: 0 0 20px 0;">
+                                    Your business certificate was not approved for the following reason:
+                                </p>
+                                <div style="background-color: #ffffff; border-radius: 6px; padding: 20px; margin: 20px 0;">
+                                    <p style="color: #cc0000; font-size: 16px; font-weight: bold; margin: 0;">
+                                        {{reason}}
+                                    </p>
+                                </div>
+                                <p style="color: #1a1a1a; font-size: 16px; line-height: 1.6; margin: 20px 0 0 0;">
+                                    Please upload a new certificate addressing this issue.
+                                </p>
+                            </div>
+
+                            <div style="text-align: center;">
+                                <a href="#" style="display: inline-block; background-color: #47FF78; color: #000000; padding: 15px 30px; text-decoration: none; border-radius: 5px; font-weight: bold; font-size: 16px;">
+                                    Upload New Certificate
+                                </a>
+                            </div>
+                            {% endif %}
+                        </td>
+                    </tr>
+
+                    <!-- Footer -->
+                    <tr>
+                        <td style="background-color: #000000; padding: 30px; text-align: center; border-radius: 0 0 8px 8px;">
+                            <div style="margin-bottom: 20px;">
+                                <a href="#" style="color: #47FF78; text-decoration: none; font-size: 14px; margin: 0 10px;">Help Center</a>
+                                <a href="#" style="color: #47FF78; text-decoration: none; font-size: 14px; margin: 0 10px;">Support</a>
+                                <a href="#" style="color: #47FF78; text-decoration: none; font-size: 14px; margin: 0 10px;">Contact</a>
+                            </div>
+                            <p style="color: #47FF78; font-size: 12px; margin: 0;">
+                                © 2025 MK Solution. All rights reserved.
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
