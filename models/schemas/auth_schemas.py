@@ -1,4 +1,5 @@
-from pydantic import BaseModel, EmailStr, Field, ConfigDict, Optional
+from pydantic import BaseModel, EmailStr, Field, ConfigDict
+from typing import Optional
 
 class VerifyEmailRequest(BaseModel):
     email: EmailStr = Field(..., description="Email address to verify")
