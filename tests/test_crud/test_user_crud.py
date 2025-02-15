@@ -194,3 +194,31 @@ def test_get_user_by_code_verify_token(db_session, user_crud):
     assert fetched_user is not None
     assert fetched_user.id == created_user.id
     assert fetched_user.verify_user_token == "verify123"
+
+def test_get_user_by_code_forget_password_token(db_session, user_crud):
+    """Test getting a user by forget_password_token."""
+    user_create_data = CreateUserSchema(
+        name="Bob Smith",
+        email="bob@example.com",
+        phone="+9876543210",
+        role="User",
+        password="password456",
+        forget_password_token="reset456"
+    )
+    created_user = user_crud.create_user(db_session, user_create_data)
+
+    fetched_user = user_crud.get_user_by_code(db_session, "reset456", "forget_password_token")
+    
+    assert fetched_user is not None
+    assert fetched_user.id == created_user.id
+    assert fetched_user.forget_password_token == "reset456"
+
+def test_get_user_by_code_invalid_token(db_session, user_crud):
+    """Test getting a user with an invalid token."""
+    fetched_user = user_crud.get_user_by_code(db_session, "invalid_token", "verify_user_token")
+    assert fetched_user is None
+
+def test_get_user_by_code_invalid_code_type(db_session, user_crud):
+    """Test getting a user with an invalid code_type."""
+    with pytest.raises(ValueError, match="Invalid code_type"):
+        user_crud.get_user_by_code(db_session, "somecode", "invalid_type")
