@@ -1,7 +1,7 @@
 import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from models.models import CreateUser  # Assuming CreateUser is the model from models.py
+from models.models import User  # Assuming CreateUser is the model from models.py
 from models.schemas.user_schemas import CreateUserSchema
 from crud_engine.user_crud import UserCRUD
 
@@ -13,7 +13,7 @@ engine = create_engine(DATABASE_URL, echo=True)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 # Create all tables in the database (for testing purposes)
-CreateUser.metadata.create_all(bind=engine)
+User.metadata.create_all(bind=engine)
 
 @pytest.fixture(scope="function")
 def db_session():

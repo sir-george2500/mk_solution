@@ -11,6 +11,10 @@ from passlib.context import CryptContext
 from dotenv import load_dotenv
 import os
 from jose import jwt
+from fastapi import status
+from fastapi_mail import MessageSchema
+from config.email import fastmail
+from utils.opt import generate_otp, generate_otp_expiry
 
 # Load environment variables from .env file
 load_dotenv()
@@ -28,29 +32,64 @@ ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", 30))
 
 async def register_new_user(user_data: CreateUserSchema, session: Session = Depends(db_connection)):
     """
-    Register a new user, handling validation, password hashing, and database operations.
-
-    Args:
-        user_data (UserCreate): User creation data.
-        session (Session): The database session.
-
-    Raises:
-        HTTPException: If validation, password hashing, or user creation fails.
+    Register a new user and send verification code immediately.
     """
     try:
-        # Validate user data for duplication using the UserValidator
+        # Validate user data for duplication
         user_validator.validate_for_duplicate_user(session, email=user_data.email)
 
-        # Hash the user's password using the UserValidator
-        hashed_password = pwd_context.hash(user_data.password)
-        # Update the user_data with the hashed password
-        user_data.password = hashed_password
+        # Generate verification code
+        verification_code = generate_otp()  # This will generate a 6-digit code
+        expiry_time = generate_otp_expiry()
 
-        # Use the create_user method from the CRUD class
-        crud.create_user(session, user_data)
+        # Hash the password
+        hashed_password = pwd_context.hash(user_data.password)
+        
+        # Update the user_data with verification details
+        user_data_dict = user_data.model_dump()
+        user_data_dict.update({
+            "password": hashed_password,
+            "verify_user_token": verification_code,
+            "verify_user_token_expiry": expiry_time,
+            "is_email_verified": False,
+            "role": "client",  # Set default role
+            "is_onboarded": False,
+            "is_approved": False
+        })
+
+        # Create user
+        user = crud.create_user(session, CreateUserSchema(**user_data_dict))
+
+        # Send verification email
+        message = MessageSchema(
+            subject="Verify Your Email",
+            recipients=[user.email],
+            template_body={
+                "name": user.name,
+                "code": verification_code
+            },
+            subtype="html"
+        )
+
+        await fastmail.send_message(
+            message, 
+            template_name="verification_email.html"
+        )
+
+        return {
+            "message": "Registration successful. Please check your email for verification code.",
+            "user_id": user.id,
+            "email": user.email
+        }
+        
     except HTTPException as e:
-        # If an HTTPException occurs during validation, password hashing, or user creation, re-raise it
         raise e
+    except Exception as e:
+        session.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=str(e)
+        )
 
 def create_access_token(data: dict, role: str):
     """
@@ -105,7 +144,7 @@ async def login_user(user_data: LoginUserSchemas, session: Session = Depends(db_
     except HTTPException as e:
         # If an HTTPException occurs during validation or login, re-raise it
         raise e
-
+#Not using this below -- to remove later
 async def send_code_to_verify_email(email:str, session:Session = Depends(db_connection)):
     """
     Send a verification code to the user's email.

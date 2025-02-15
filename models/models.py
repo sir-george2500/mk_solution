@@ -4,7 +4,7 @@ from sqlalchemy.orm import DeclarativeBase, mapped_column, Mapped
 class Base(DeclarativeBase):
     pass
 
-class CreateUser(Base):
+class User(Base):
     __tablename__ = "users"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
@@ -23,6 +23,8 @@ class CreateUser(Base):
     profile_url: Mapped[str | None] = mapped_column(Text, nullable=True)
     address: Mapped[str | None] = mapped_column(String, nullable=True)
     business_url: Mapped[str | None] = mapped_column(Text, nullable=True)
+    is_onboarded: Mapped[bool] = mapped_column(Boolean, default=False)
+    is_approved: Mapped[bool] = mapped_column(Boolean, default=False)
     created_at: Mapped[DateTime] = mapped_column(DateTime, default=func.now(), nullable=False)
     updated_at: Mapped[DateTime] = mapped_column(DateTime, default=func.now(), onupdate=func.now(), nullable=False)
 

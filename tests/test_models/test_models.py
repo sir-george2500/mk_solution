@@ -2,7 +2,7 @@ import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import IntegrityError
-from models.models import CreateUser, Base
+from models.models import User, Base
 
 
 # Database URL (use a test database or an in-memory SQLite database)
@@ -25,7 +25,7 @@ def db_session():
 def test_create_user(db_session):
     """Test creating a user."""
     # Create a new user
-    new_user = CreateUser(
+    new_user = User(
         name="John Doe",
         email="johndoe@example.com",
         password="securepassword123",  # New password field added
@@ -39,7 +39,7 @@ def test_create_user(db_session):
     db_session.commit()
 
     # Check if the user is added
-    user = db_session.query(CreateUser).filter_by(email="johndoe@example.com").first()
+    user = db_session.query(User).filter_by(email="johndoe@example.com").first()
     assert user is not None
     assert user.name == "John Doe"
     assert user.email == "johndoe@example.com"
@@ -53,7 +53,7 @@ def test_create_user(db_session):
 def test_create_user_duplicate_email(db_session):
     """Test creating a user with a duplicate email."""
     # Create the first user
-    user1 = CreateUser(
+    user1 = User(
         name="Jane Doe",
         email="janedoe@example.com",
         password="password123",  # New password field added
@@ -64,7 +64,7 @@ def test_create_user_duplicate_email(db_session):
     db_session.commit()
 
     # Try creating a user with the same email
-    user2 = CreateUser(
+    user2 = User(
         name="John Smith",
         email="janedoe@example.com",  # Same email
         password="anotherpassword123",  # New password
@@ -80,7 +80,7 @@ def test_create_user_duplicate_email(db_session):
 def test_create_user_with_optional_fields(db_session):
     """Test creating a user with optional fields."""
     # Create a user with only required fields (name, email, password)
-    user = CreateUser(
+    user = User(
         name="Mark Smith",
         email="marksmith@example.com",
         password="password123"  # New password field added
@@ -89,7 +89,7 @@ def test_create_user_with_optional_fields(db_session):
     db_session.commit()
 
     # Check that the optional fields are null by default
-    user = db_session.query(CreateUser).filter_by(email="marksmith@example.com").first()
+    user = db_session.query(User).filter_by(email="marksmith@example.com").first()
     assert user is not None
     assert user.name == "Mark Smith"
     assert user.email == "marksmith@example.com"
@@ -103,7 +103,7 @@ def test_create_user_with_optional_fields(db_session):
 def test_create_user_timestamp_fields(db_session):
     """Test that created_at and updated_at are automatically populated."""
     # Create a user
-    user = CreateUser(
+    user = User(
         name="Alice Green",
         email="alicegreen@example.com",
         password="securepassword123"  # New password field added
@@ -118,7 +118,7 @@ def test_create_user_timestamp_fields(db_session):
 def test_update_user(db_session):
     """Test updating a user's information."""
     # Create a user
-    user = CreateUser(
+    user = User(
         name="Samuel Brown",
         email="samuelbrown@example.com",
         password="password123"  # New password field added
@@ -132,7 +132,7 @@ def test_update_user(db_session):
     db_session.commit()
 
     # Fetch the updated user and check the role
-    updated_user = db_session.query(CreateUser).filter_by(email="samuelbrown@example.com").first()
+    updated_user = db_session.query(User).filter_by(email="samuelbrown@example.com").first()
     assert updated_user.role == "Manager"
     assert updated_user.password == "password123"  # Ensure password remains unchanged
 

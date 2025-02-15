@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MK Solution - Email Verification</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f4f4f4;">
+    <table cellpadding="0" cellspacing="0" border="0" width="100%" style="background-color: #f4f4f4; padding: 40px 20px;">
+        <tr>
+            <td align="center">
+                <table cellpadding="0" cellspacing="0" border="0" width="600" style="background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                    <!-- Header -->
+                    <tr>
+                        <td style="background-color: #000000; padding: 30px; text-align: center; border-radius: 8px 8px 0 0;">
+                            <div style="display: inline-block; background: linear-gradient(135deg, #47FF78, #32d161); border-radius: 50%; width: 60px; height: 60px; line-height: 60px; text-align: center; margin-bottom: 15px;">
+                                <span style="color: #000000; font-size: 24px; font-weight: bold;">MK</span>
+                            </div>
+                            <div style="color: #47FF78; font-size: 20px; font-weight: 500;">MK Solution</div>
+                        </td>
+                    </tr>
+
+                    <!-- Content -->
+                    <tr>
+                        <td style="padding: 40px 30px;">
+                            <h1 style="color: #1a1a1a; font-size: 28px; margin: 0 0 10px 0; text-align: center;">
+                                Welcome, <span style="color: #32d161;">{{name}}</span>!
+                            </h1>
+                            <p style="color: #666666; font-size: 16px; margin: 0 0 40px 0; text-align: center;">
+                                Thank you for joining MK Solution
+                            </p>
+
+                            <p style="color: #1a1a1a; font-size: 16px; text-align: center; margin-bottom: 20px;">
+                                Please verify your email with the code below:
+                            </p>
+
+                            <div style="background-color: #f8f8f8; border-radius: 8px; padding: 30px; margin: 0 auto; max-width: 300px; text-align: center;">
+                                <div style="background-color: #ffffff; border: 2px solid #47FF78; border-radius: 8px; padding: 20px; margin-bottom: 15px;">
+                                    <span style="font-size: 32px; font-weight: bold; color: #1a1a1a; letter-spacing: 5px;">
+                                        {{code}}
+                                    </span>
+                                </div>
+                                <div style="height: 4px; background: linear-gradient(135deg, #47FF78, #32d161); border-radius: 2px;"></div>
+                            </div>
+
+                            <p style="color: #666666; font-size: 14px; text-align: center; margin: 20px 0;">
+                                This code will expire in 10 minutes
+                            </p>
+
+                            <div style="background-color: rgba(71, 255, 120, 0.05); border-radius: 8px; padding: 20px; text-align: center; margin-top: 30px;">
+                                <p style="color: #666666; font-size: 14px; margin: 0;">
+                                    If you didn't request this code, please ignore this email.
+                                </p>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Footer -->
+                    <tr>
+                        <td style="background-color: #000000; padding: 30px; text-align: center; border-radius: 0 0 8px 8px;">
+                            <div style="margin-bottom: 20px;">
+                                <a href="#" style="color: #47FF78; text-decoration: none; font-size: 14px; margin: 0 10px;">Website</a>
+                                <a href="#" style="color: #47FF78; text-decoration: none; font-size: 14px; margin: 0 10px;">Support</a>
+                                <a href="#" style="color: #47FF78; text-decoration: none; font-size: 14px; margin: 0 10px;">Contact</a>
+                            </div>
+                            <p style="color: #47FF78; font-size: 12px; margin: 0;">
+                                © 2025 MK Solution. All rights reserved.
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
