@@ -144,32 +144,6 @@ async def login_user(user_data: LoginUserSchemas, session: Session = Depends(db_
     except HTTPException as e:
         # If an HTTPException occurs during validation or login, re-raise it
         raise e
-#Not using this below -- to remove later
-async def send_code_to_verify_email(email:str, session:Session = Depends(db_connection)):
-    """
-    Send a verification code to the user's email.
-
-    Args:
-        email (str): The user's email address.
-        code (str): The verification code to send.
-    """
-    # Implement email sending logic here
-    code = generate_verification_code_alphanumeric()
-    user = crud.get_user_by_email(session,email)
-
-    expiry_time = datetime.now(timezone.utc) + timedelta(minutes=10)
-    
-
-    if not user:
-        raise HTTPException(status_code=404, detail="User not found.")
-    # store the user token in the database
-    _= crud.update_user(session, user.id,
-                        verify_user_token=code,
-                        verify_user_token_expiry=expiry_time)
-
-    # Mock email sending
-    print(f"Verification code for {email}: {code}")
-
 
 
 
